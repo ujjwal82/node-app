@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.get('/', function (req, res) {
+    console.log("Received get request!");
     res.sendFile(path.join(__dirname, "index.html"));
   });
 
@@ -21,7 +22,7 @@ app.get('/profile-picture', function (req, res) {
 });
 
 // use when starting application locally
-let mongoUrlLocal = "mongodb://admin:password@localhost:27017";
+let mongoUrlLocal = "mongodb://admin:password@mongodb:27017";
 
 // use when starting application as docker container
 let mongoUrlDocker = "mongodb://admin:password@mongodb";
@@ -34,6 +35,7 @@ let databaseName = "my-db";
 
 app.post('/update-profile', function (req, res) {
   let userObj = req.body;
+  console.log("update-profile : trying to connect MongoDB instance");
 
   MongoClient.connect(mongoUrlLocal, mongoClientOptions, function (err, client) {
     if (err) throw err;
@@ -57,6 +59,7 @@ app.post('/update-profile', function (req, res) {
 app.get('/get-profile', function (req, res) {
   let response = {};
   // Connect to the db
+  console.log("get-profile : trying to connect MongoDB instance");
   MongoClient.connect(mongoUrlLocal, mongoClientOptions, function (err, client) {
     if (err) throw err;
 
